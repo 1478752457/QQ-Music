@@ -1,7 +1,17 @@
 import requests
 import time
+import os
 import random
 
+
+ua = "Mozilla/5.0 (Linux; Android 11; M2012K10C Build/RP1A.200720.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/90.0.4430.210 Mobile Safari/537.36 MCloudApp/10.0.1"
+
+if __name__ == "__main__":
+    QQtoken = 'qqkey'         #从环境变量读取到key#qq音乐cookie，从环境变量获取
+    key = os.getenv(QQtoken)
+    if not key:
+        print(f'⛔️未获取到ck变量：请检查变量 {key} 是否填写')
+        exit(0)
 
 def send_request(qq, url, key):
     api_url = f"http://shanhe.kim/api/qy/qyv1.php?qq={qq}&url={encodeURIComponent(url)}&ck={key}&size=4"
@@ -86,8 +96,6 @@ if __name__ == "__main__":
         "https://c6.y.qq.com/base/fcgi-bin/u?__=xny40Ok75xNI"
     }
 
-    key = input("请输入API密钥: ")  # 从控制台手动输入key
-
     max_requests = 20
     count = 0
     log_file = "api_requests.log"
@@ -96,7 +104,7 @@ if __name__ == "__main__":
 
     while count < max_requests:
         url = random.choice(list(song_links_set))
-        api_url = f"http://shanhe.kim/api/qy/qyv1.php?qq={qq}&url={encodeURIComponent(url)}&ck={key}&size=4"
+        api_url = f"https://shanhe.kim/api/qy/qyv1.php?qq={qq}&url={encodeURIComponent(url)}&ck={key}&size=4"
         print(f"Sending request {count + 1} to {api_url}")
         result, _ = send_request(qq, url, key)
         log_result(result, api_url, log_file)
